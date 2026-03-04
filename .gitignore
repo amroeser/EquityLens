@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build
+frontend/dist/
+frontend/build/
+
+# Data & Saved Analyses (nicht synchronisieren)
+backend/data/
+backend/data/*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+
+# Logs & Runtime
+*.log
+.backend.pid
+.frontend.pid
+
+# Temporary files
+temp_venv/
+*.txt
+!requirements.txt
