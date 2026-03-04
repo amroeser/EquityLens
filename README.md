@@ -164,6 +164,115 @@ npm run dev
 
 </details>
 
+## Architecture
+
+### System Architecture
+
+```mermaid
+graph TB
+    subgraph "Frontend (React + Vite)"
+        UI[User Interface]
+        App[App Component]
+        DCF[DCF Input Forms]
+        Multi[Multiplier Section]
+        Sens[Sensitivity Analysis]
+        Scen[Scenario Comparison]
+        Export[Export Buttons]
+        Charts[Interactive Charts]
+    end
+    
+    subgraph "Backend (FastAPI)"
+        API[REST API]
+        CAPM[CAPM Calculator]
+        WACC[WACC Iteration]
+        DCFCalc[DCF Calculator]
+        MultCalc[Multiplier Calculator]
+        SensCalc[Sensitivity Calculator]
+        ScenCalc[Scenario Calculator]
+        Excel[Excel Import/Export]
+    end
+    
+    subgraph "Data Layer"
+        JSON[(JSON Storage)]
+        Template[Excel Template]
+    end
+    
+    UI --> App
+    App --> DCF
+    App --> Multi
+    App --> Sens
+    App --> Scen
+    App --> Export
+    App --> Charts
+    
+    DCF --> API
+    Multi --> API
+    Sens --> API
+    Scen --> API
+    Export --> API
+    
+    API --> CAPM
+    API --> WACC
+    API --> DCFCalc
+    API --> MultCalc
+    API --> SensCalc
+    API --> ScenCalc
+    API --> Excel
+    
+    CAPM --> WACC
+    WACC --> DCFCalc
+    DCFCalc --> JSON
+    MultCalc --> JSON
+    SensCalc --> JSON
+    ScenCalc --> JSON
+    Excel --> Template
+    
+    style UI fill:#e1f5ff
+    style API fill:#fff4e1
+    style JSON fill:#e8f5e9
+```
+
+### DCF Calculation Flow
+
+```mermaid
+flowchart TD
+    Start([User Input]) --> Validate{Valid Input?}
+    Validate -->|No| Error[Return Error]
+    Validate -->|Yes| Historical[Calculate Historical Metrics]
+    
+    Historical --> CAPM[Calculate CAPM<br/>re = rf + β × (rm - rf)]
+    CAPM --> WACC1[Initial WACC = 8%]
+    
+    WACC1 --> Forecast[Generate Forecast<br/>Revenue, EBIT, FCF, FCFE]
+    Forecast --> Terminal[Calculate Terminal Value<br/>TV = FCF × (1+g) / (WACC-g)]
+    
+    Terminal --> PV[Calculate Present Values<br/>Discount all cash flows]
+    PV --> EV[Calculate Enterprise Value<br/>EV = Σ PV(FCF) + PV(TV)]
+    
+    EV --> Equity[Calculate Equity Value<br/>Equity = EV - Net Debt]
+    Equity --> NewWACC[Calculate New WACC<br/>Based on EV and Equity]
+    
+    NewWACC --> Converged{WACC<br/>Converged?}
+    Converged -->|No<br/>Iteration < 25| Forecast
+    Converged -->|Yes| SharePrice[Calculate Share Price<br/>Price = Equity / Shares]
+    
+    SharePrice --> Multiplier{Multiplier<br/>Data?}
+    Multiplier -->|Yes| PeerCalc[Calculate Peer Multiples<br/>EV/Sales, EV/EBIT, etc.]
+    Multiplier -->|No| Results
+    
+    PeerCalc --> Stats[Calculate Statistics<br/>Min, Mean, Median, Max]
+    Stats --> TargetVal[Calculate Target Valuation<br/>Using Median Multiples]
+    TargetVal --> Results
+    
+    Results[Return Complete Results]
+    
+    style Start fill:#e1f5ff
+    style CAPM fill:#fff4e1
+    style WACC1 fill:#fff4e1
+    style Converged fill:#ffe1e1
+    style Results fill:#e8f5e9
+```
+
 ## Project Structure
 
 ```
