@@ -13,7 +13,11 @@ try:
 except ImportError:
     print("Warning: openpyxl not installed. Excel features will not work.")
 
-app = FastAPI(title="DCF Finanzanalyse API")
+app = FastAPI(
+    title="EquityLens API",
+    description="Professional DCF valuation with peer group analysis",
+    version="1.0.0"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -393,7 +397,7 @@ def save_analyses(analyses):
 
 @app.get("/")
 def root():
-    return {"message": "DCF Finanzanalyse API"}
+    return {"message": "EquityLens API - Professional DCF Valuation Tool"}
 
 @app.post("/api/analyses", response_model=DCFResult)
 def create_analysis(inputs: DCFInput):

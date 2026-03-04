@@ -1,4 +1,4 @@
-# DCF Financial Analysis Tool
+# EquityLens
 
 > Professional web-based DCF valuation with peer group analysis
 
@@ -195,6 +195,6 @@ MIT License
 
 ## Academic Context
 
-This tool was created as a project for the **Financial Analysis** course. It demonstrates the implementation of DCF valuation models and peer group analysis in a modern web application.
+**EquityLens** was created as a project for the **Financial Analysis** course. It demonstrates the implementation of DCF valuation models and peer group analysis in a modern web application.
 
 **For educational purposes only - Not for production financial decisions.**
