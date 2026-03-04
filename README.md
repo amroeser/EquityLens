@@ -240,14 +240,14 @@ flowchart TD
     Validate -->|No| Error[Return Error]
     Validate -->|Yes| Historical[Calculate Historical Metrics]
     
-    Historical --> CAPM[Calculate CAPM<br/>re = rf + β × (rm - rf)]
+    Historical --> CAPM[Calculate CAPM<br/>re = rf + beta * market risk premium]
     CAPM --> WACC1[Initial WACC = 8%]
     
     WACC1 --> Forecast[Generate Forecast<br/>Revenue, EBIT, FCF, FCFE]
-    Forecast --> Terminal[Calculate Terminal Value<br/>TV = FCF × (1+g) / (WACC-g)]
+    Forecast --> Terminal[Calculate Terminal Value<br/>TV = FCF * 1+g / WACC-g]
     
     Terminal --> PV[Calculate Present Values<br/>Discount all cash flows]
-    PV --> EV[Calculate Enterprise Value<br/>EV = Σ PV(FCF) + PV(TV)]
+    PV --> EV[Calculate Enterprise Value<br/>EV = Sum of PV FCF + PV TV]
     
     EV --> Equity[Calculate Equity Value<br/>Equity = EV - Net Debt]
     Equity --> NewWACC[Calculate New WACC<br/>Based on EV and Equity]
